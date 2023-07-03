@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.dam_sem11_proyecto.databinding.FragmentItemBinding;
-
 import java.util.List;
 
 public class MyNotaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaRecyclerViewAdapter.ViewHolder> {
@@ -17,15 +15,16 @@ public class MyNotaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaRecycl
     private final List<Nota> mValues;
     private final NotasInteractionListener mListener;
 
-    public MyNotaRecyclerViewAdapter(List<Nota> items, NotasInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
+    public MyNotaRecyclerViewAdapter(List<Nota> notaList, NotasInteractionListener mListener) {
+        this.mValues = notaList;
+        this.mListener = mListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        return new ViewHolder(FragmentItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        View View = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.fragment_item, parent, false);
+        return new ViewHolder(View);
 
     }
 
@@ -34,6 +33,16 @@ public class MyNotaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaRecycl
         holder.mItem = mValues.get(position);
        // holder.mIdView.setText(mValues.get(position).id);
         //holder.mContentView.setText(mValues.get(position).content);
+        holder.tvTitulo.setText(holder.mItem.getTitulo());
+        holder.tvContenido.setText(holder.mItem.getContenido());
+        if(holder.mItem.isFavorita()){
+            holder.IvFavorita.setImageResource(R.drawable.baseline_star_border_24);
+        }
+        holder.IvFavorita.setOnClickListener(v->{
+            if(null != mListener){
+                mListener.favoritaNotaClick(holder.mItem);
+            }
+        });
     }
 
     @Override
@@ -44,17 +53,18 @@ public class MyNotaRecyclerViewAdapter extends RecyclerView.Adapter<MyNotaRecycl
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public final View mView;
-        public final TextView mIdView;
         public final TextView tvTitulo;
         public final TextView tvContenido;
-        public final ImageView ivFavorita;
-        public final TextView mContentView;
+        public final ImageView IvFavorita;
         public Nota mItem;
 
-        public ViewHolder(FragmentItemBinding binding) {
-            super(binding.getRoot());
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+
+        public ViewHolder(View view) {
+            super(view);
+            mView = view;
+            tvTitulo = view.findViewById(R.id.textViewTitulo);
+            tvContenido = view.findViewById(R.id.textViewContenido);
+            IvFavorita = view.findViewById(R.id.imageViewFavorita);
         }
 
         @Override
