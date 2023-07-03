@@ -68,10 +68,10 @@ public class        NotaFragment extends Fragment {
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
-                DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-                float dpWith = displayMetrics.widthPixels / displayMetrics.density;
-                int numeroColumnas = (int) (dpWith / 180);
-                recyclerView.setLayoutManager(new StaggeredGridLayoutManager(numeroColumnas,  StaggeredGridLayoutManager.VERTICAL));
+              //  DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+                //float dpWith = displayMetrics.widthPixels / displayMetrics.density;
+               // int numeroColumnas = (int) (dpWith / 180);
+                recyclerView.setLayoutManager(new StaggeredGridLayoutManager(mColumnCount,  StaggeredGridLayoutManager.VERTICAL));
             }
 
             notaList = new ArrayList<>();
